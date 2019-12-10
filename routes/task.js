@@ -5,9 +5,9 @@ const router  = express.Router();
 const Task = require('../models/task');
 
 // POST route => to create a new task
-router.post('/projects', (req, res, next)=>{
+router.post('/taks', (req, res, next)=>{
  
-  Project.create({
+  Task.create({
     title: req.body.title,
     description: req.body.description,
     // subTasks: []

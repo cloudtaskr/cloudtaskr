@@ -11,7 +11,7 @@ const path         = require('path');
 
 
 mongoose
-  .connect('mongodb://localhost/the-vault', {useNewUrlParser: true})
+  .connect('mongodb://localhost/vault', {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })
@@ -37,6 +37,7 @@ app.use(require('node-sass-middleware')({
   sourceMap: true
 }));
       
+// not sure what this does, look like it tells the express app what to render
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));

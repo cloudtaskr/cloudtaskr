@@ -15,8 +15,6 @@ const session = require('express-session');
 const passport = require('passport')
 require('./config/passport')
 
-
-
 mongoose
   .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(x => {

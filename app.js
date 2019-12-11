@@ -10,10 +10,17 @@ const logger = require("morgan");
 const path = require("path");
 
 // additional middleware imports
+<<<<<<< HEAD
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 require("./configs/passport");
+=======
+const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport')
+require('./config/passport')
+>>>>>>> a07a0c2bc34fcda2864d733fe25faa186fd4685b
 
 mongoose
   .connect(process.env.MONGODB_URI, { useNewUrlParser: true })

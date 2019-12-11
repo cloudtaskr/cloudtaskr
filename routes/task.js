@@ -4,6 +4,25 @@ const router  = express.Router();
 // import the model that will be used for the tasks collection
 const Task = require('../models/task');
 
+// GET route => get all the tasks in the collection
+router.get("/tasks", (req, res, next) => {
+  Task.find()
+  .then( allProjects => {
+    res.json(allProjects);
+  })
+});
+
+// GET route => to get all the projects
+router.get('/projects', (req, res, next) => {
+  Project.find().populate('tasks')
+    .then(allTheProjects => {
+      res.json(allTheProjects);
+    })
+    .catch(err => {
+      res.json(err);
+    })
+});
+
 // POST route => to create a new task
 router.post('/tasks', (req, res, next)=>{
  

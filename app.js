@@ -9,25 +9,14 @@ const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
 
-// additional
+// additional middleware imports
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport')
+require('./config/passport')
 
-// SETUP CLOUD DATABASE
-// once you connect to MpngoDB Atlas make the following changes
-// change 'mongodb://localhost/db-name' to process.env.MONGODB_URI
-// then go to your .env file
-// inside your .env file add the following line:
-// MONGODB_URI=<paste the link you copied from MongoDB Atlas>
-// ORIGINAL
-// mongoose
-//   .connect('mongodb://localhost/db-name', {useNewUrlParser: true})
-//   .then(x => {
-//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-//   })
-//   .catch(err => {
-//     console.error('Error connecting to mongo', err)
-//   });
-// AFTER CHANGES
+
+
 mongoose
   .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(x => {
@@ -54,6 +43,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Add Session
+app.use(session({
+  secret: "SuperSecretPasswordPhrase",
+  resave: true,
+  saveUninitialized: true,
+}))
+
+// allow our app to use sessions
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Express View engine setup
 app.use(require('node-sass-middleware')({
   src:  path.join(__dirname, 'public'),
@@ -73,5 +73,6 @@ app.locals.title = 'Express - Generated with IronGenerator';
 // routes
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/task'));
+app.use('/users/', require('./routes/auth-routes'))
 
 module.exports = app;

@@ -11,7 +11,21 @@ const path         = require('path');
 
 // additional
 const cors = require('cors');
+const session = require('express-session');
+const passport = require('passport')
 
+require('./config/passport')
+
+//Add Session
+app.use(session({
+  secret: "SuperSecretPasswordPhrase",
+  resave: true,
+  saveUninitialized: true,
+}))
+
+//allow our app to use sessions
+app.use(passport.initialize());
+app.use(passport.session());
 
 mongoose
   .connect('mongodb://localhost/vault', {useNewUrlParser: true})
@@ -58,5 +72,6 @@ app.locals.title = 'Express - Generated with IronGenerator';
 // routes
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/task'));
+app.use('/users/', require('./routes/auth-routes'))
 
 module.exports = app;

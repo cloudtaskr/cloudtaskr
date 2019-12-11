@@ -12,9 +12,24 @@ const path         = require('path');
 // additional
 const cors = require('cors');
 
-
+// SETUP CLOUD DATABASE
+// once you connect to MpngoDB Atlas make the following changes
+// change 'mongodb://localhost/db-name' to process.env.MONGODB_URI
+// then go to your .env file
+// inside your .env file add the following line:
+// MONGODB_URI=<paste the link you copied from MongoDB Atlas>
+// ORIGINAL
+// mongoose
+//   .connect('mongodb://localhost/db-name', {useNewUrlParser: true})
+//   .then(x => {
+//     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+//   })
+//   .catch(err => {
+//     console.error('Error connecting to mongo', err)
+//   });
+// AFTER CHANGES
 mongoose
-  .connect('mongodb://localhost/vault', {useNewUrlParser: true})
+  .connect(process.env.MONGODB_URI, {useNewUrlParser: true})
   .then(x => {
     console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
   })

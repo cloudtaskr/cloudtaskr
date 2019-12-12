@@ -44,9 +44,10 @@ app.use(cookieParser());
 // Add Session
 app.use(
   session({
-    secret: "SuperSecretPasswordPhrase",
-    resave: true,
-    saveUninitialized: true
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SECRET,
+    cookie: { maxAge: 1000 * 60 * 60 }
   })
 );
 

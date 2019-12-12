@@ -13,31 +13,40 @@ authRoutes.post("/signup", (req, res, err) => {
 
   const email = req.body.email;
   const password = req.body.password;
-
-  if (!email || !password) {
-    res.status(404).json({ message: "Provide email and password" });
+  
+  if (!email && !password) {
+    res.json({ message: "Provide info" }).status(404);
+    return;
+  }
+  if (!email) {
+    res.json({ message: "Provide an email" }).status(404);
+    return;
+  }
+  if (!password) {
+    res.json({ message: "Provide a password" }).status(404);
     return;
   }
 
-  if (password.length < 7) {
-    res.status(400).json({
-      message:
-        "Please make your password at least 8 characters long for security purposes."
-    });
-    return;
-  }
-
+  
+    if (password.length < 7) {
+      res.json({
+        message: "Please make your password at least 8 characters long for security purposes."
+      }).status(400);
+      return;
+    }
+  
   User.findOne({ email }, (err, foundUser) => {
     if (err) {
-      res.status(500).json({ message: "Email check failed. Try again." });
+      res.json({ message: "Email check failed. Try again." }).status(500);
       return;
     }
 
     if (foundUser) {
-      res.status(400).json({
+      res.json({
         message:
           "Email is already registered. Please register with another email or login."
-      });
+      })
+      .status(400);
       return;
     }
 
@@ -53,20 +62,20 @@ authRoutes.post("/signup", (req, res, err) => {
     aNewUser.save(err => {
       if (err) {
         res
-          .status(400)
-          .json({ message: "Saving user to DB went wrong. Try again." });
+          .json({ message: "Saving user to DB went wrong. Try again." })
+          .status(400);
       }
 
       //automatically login user
       //.login() here is actually predefined passport method
       req.login(aNewUser, err => {
         if (err) {
-          res.status(500).json({ message: "Login after signup went bad." });
+          res.json({ message: "Login after signup went bad." }).status(500);
         }
   
         //send users information to the front end
-        //we can use also: res.status(200).json(req.user)
-        res.status(200).json(aNewUser);
+        //we can use also: res.json(req.user).status(200)
+        res.json(aNewUser).status(200);
       });
     });
   });
@@ -76,26 +85,26 @@ authRoutes.post('/login', (req, res, next) => {
 
     passport.authenticate('local', (err, theUser, failureDetails) => {
         if (err) {
-            res.status(500).json({ message: 'Something went wrong authenticating user' });
+            res.json({ message: 'Something went wrong authenticating user' }).status(500);
             return;
         }
     
         if (!theUser) {
             // "failureDetails" contains the error messages
             // from our logic in "LocalStrategy" { message: '...' }.
-            res.status(401).json(failureDetails);
+            res.json(failureDetails).status(401);
             return;
         }
 
         // save user in session
         req.login(theUser, (err) => {
             if (err) {
-                res.status(500).json({ message: 'Session save went bad.' });
+                res.json({ message: 'Session save went bad.' }).status(500);
                 return;
             }
 
             // We are now logged in (that's why we can also send req.user)
-            res.status(200).json(theUser);
+            res.json(theUser).status(200);
         });
     })(req, res, next);
 });
@@ -103,17 +112,17 @@ authRoutes.post('/login', (req, res, next) => {
 authRoutes.post('/logout', (req, res, next) => {
     // req.logout() is defined by passport
     req.logout();
-    res.status(200).json({ message: 'Log out success!' });
+    res.json({ message: 'Log out success!' }).status(200);
 });
 
 
 authRoutes.get('/loggedin', (req, res, next) => {
     // req.isAuthenticated() is defined by passport
     if (req.isAuthenticated()) {
-        res.status(200).json(req.user);
+        res.json(req.user).status(200);
         return;
     }
-    res.status(403).json({ message: 'Unauthorized' });
+    res.json({ message: 'Unauthorized' }).status(403);
 });
 
 

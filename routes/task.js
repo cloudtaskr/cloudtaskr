@@ -30,6 +30,7 @@ router.post('/tasks', (req, res, next)=>{
     title: req.body.title,
     description: req.body.description,
     // subTasks: []
+    owner: req.user._id
   })
     .then(response => {
       res.json(response);

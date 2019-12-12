@@ -10,8 +10,7 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user-model");
 
 authRoutes.post("/signup", (req, res, err) => {
-    console.log('hello')
-  console.log(req.body);
+
   const email = req.body.email;
   const password = req.body.password;
 
@@ -64,7 +63,7 @@ authRoutes.post("/signup", (req, res, err) => {
         if (err) {
           res.status(500).json({ message: "Login after signup went bad." });
         }
-
+  
         //send users information to the front end
         //we can use also: res.status(200).json(req.user)
         res.status(200).json(aNewUser);

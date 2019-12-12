@@ -10,7 +10,8 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user-model");
 
 authRoutes.post("/signup", (req, res, err) => {
-  console.log(req.body, req.query);
+    console.log('hello')
+  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
 
@@ -19,7 +20,7 @@ authRoutes.post("/signup", (req, res, err) => {
     return;
   }
 
-  if (passport < 7) {
+  if (password.length < 7) {
     res.status(400).json({
       message:
         "Please make your password at least 8 characters long for security purposes."
@@ -73,6 +74,7 @@ authRoutes.post("/signup", (req, res, err) => {
 });
 
 authRoutes.post('/login', (req, res, next) => {
+
     passport.authenticate('local', (err, theUser, failureDetails) => {
         if (err) {
             res.status(500).json({ message: 'Something went wrong authenticating user' });

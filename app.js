@@ -13,7 +13,6 @@ const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
-require("./config/passport");
 
 mongoose
   .connect(process.env.MONGODB_URI, { useNewUrlParser: true })
@@ -34,12 +33,7 @@ const debug = require("debug")(
 const app = express();
 
 // add cors to alow front end to make request to the back-end without being block by settings restrictions
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost:3000"] // <== this will be the URL of our React app (it will be running on port 3000)
-  })
-);
+
 
 // Middleware Setup
 app.use(logger("dev"));
@@ -78,9 +72,18 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 // default value for title local
 app.locals.title = "insertNameHere";
 
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000"] // <== this will be the URL of our React app (it will be running on port 3000)
+  })
+);
+
 // routes
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/task'));
-app.use('/user', require('./routes/auth-routes'))
+app.use('/api', require('./routes/auth-routes'))
 
+
+require("./config/passport"); 
 module.exports = app;

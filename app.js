@@ -79,8 +79,8 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 app.locals.title = "insertNameHere";
 
 // routes
-app.use("/", require("./routes/index"));
-app.use("/api", require("./routes/task"));
-app.use("/users/", require("./routes/auth-routes"));
+app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/task'));
+app.use('/user', require('./routes/auth-routes'))
 
 module.exports = app;

@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router  = express.Router();
 // import the model that will be used for the tasks collection
-const Task = require('../models/task');
+const Task = require('../models/task-model');
 
 // GET route => get all the tasks in the collection
 router.get("/tasks", (req, res, next) => {

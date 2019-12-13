@@ -23,19 +23,24 @@ router.post("/signup", (req, res, err) => {
 
 // check if user is logged in, 
 router.get('/isLoggedIn', (req, res, next) => {  
-  res.json(req.user)
+  console.log('checking logged in')
+  console.log('this is user', req.user)
+ 
+    res.json(req.user)
 })
 
-// logout POST
-router.post('/logout', (req, res, next) => {  
+// logout GET
+router.get('/logout', (req, res, next) => {  
   req.logout();
-  res.status(200).json({ message: 'Log out success!' });
+  // res.status(200).json({ message: 'Log out success!' });
+  res.json({ message: 'Log out success!' });
 });
 
 // login POST
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
   console.log("login whats inside req", req)
   console.log("login whats inside req.user", req.user)
+  req.session.word = "yes";
   res.json(req.user);
 })
 

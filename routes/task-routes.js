@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const router  = express.Router();
 // import the model that will be used for the tasks collection
 const Task = require('../models/task-model');
-
+const User = require('../models/user-model');
 // GET route => get all the tasks in the collection
 router.get("/tasks", (req, res, next) => {
   Task.find()
@@ -30,7 +30,7 @@ router.post('/tasks', (req, res, next)=>{
     title: req.body.title,
     description: req.body.description,
     // subTasks: []
-    owner: req.user._id
+    owner: req.session.currentUser._id
   })
     .then(response => {
       res.json(response);

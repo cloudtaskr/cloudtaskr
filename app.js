@@ -12,6 +12,7 @@ const path = require("path");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
+require("./config/passport"); 
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
 .then(x => {
@@ -34,11 +35,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000"] 
+  })
+  // cors()
+);
+
+app.use(
   session({
     secret: process.env.SECRET,
-    cookie: { 
-      maxAge: 1000 * 60 * 60 
-    },
+    resave: false, 
+    saveUninitialized: true,
+    cookie: {maxAge: 1000 * 60 *60}
   })
 );
 
@@ -48,17 +57,14 @@ app.use(passport.session());
 // what is this?
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(
-  cors({
-    credentials: true,
-    origin: [process.env.FRONTENDPOINT] 
-  })
-);
-
 // routes
 app.use('/api', require('./routes/task-routes'));
 app.use('/api', require('./routes/auth-routes'))
 
-require("./config/passport"); 
+
+
+// app.get('*', (req,res) => {
+//   res.sendFile(path.join(__dirname, '../public/index.html'))
+// })
 
 module.exports = app;

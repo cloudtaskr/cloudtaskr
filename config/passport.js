@@ -1,46 +1,23 @@
-const User = require("../models/user-model");
-const LocalStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcryptjs"); // !!!
-const passport = require("passport");
+// import User model
+const User = require('../models/user-model');
+// passport is authentication middleware, don't forget to add passport setting to app.js
+const passport = require('passport');
 
-passport.serializeUser((loggedInUser, cb) => {
-  cb(null, loggedInUser._id);
-});
+/**
+ * - first step to using passport is to configure an authentication strategy
+ * - createStrategy (passport-local-mongoose helper method): this quickly setups the LocalStrategy for passport
+ * - passport uses what are termed strategies to authenticate requests. Strategies range from verifying a 
+ * username and password, delegated authenticatio n using OAuth or federated authentication using OpenID
+ */
+passport.use(User.createStrategy());
 
-passport.deserializeUser((userIdFromSession, cb) => {
-  User.findById(userIdFromSession, (err, userDocument) => {
-    if (err) {
-      cb(err);
-      return;
-    }
-    cb(null, userDocument);
-  });
-});
+/**
+ * - serializeUser and deserializeUser are passport methods 
+ * - these ^ methods are required in order to sessions, 
+ * passport will serialize and deserialize user instances to and from the session. 
+ */
+passport.serializeUser(User.serializeUser()); 
+passport.deserializeUser(User.deserializeUser());
 
-passport.use(
-  new LocalStrategy({
-    usernameField: "email",
-    passwordField: "password"
-  },
-    
-    function(email, password, next) {
-    User.findOne({ email }, (err, foundUser) => {
-      if (err) {
-        next(err);
-        return;
-      }
-
-      if (!foundUser) {
-        next(null, false, { message: "Incorrect email." });
-        return;
-      }
-
-      if (!bcrypt.compareSync(password, foundUser.password)) {
-        next(null, false, { message: "Incorrect password." });
-        return;
-      }
-
-      next(null, foundUser);
-    });
-  })
-);
+// export passport 
+module.exports = passport;

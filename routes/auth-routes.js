@@ -21,7 +21,7 @@ router.post("/signup", (req, res, err) => {
   });
 })
 
-// check if user is logged in
+// check if user is logged in, 
 router.get('/isLoggedIn', (req, res, next) => {  
   res.json(req.user)
 })

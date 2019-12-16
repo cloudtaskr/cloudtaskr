@@ -6,7 +6,7 @@ const taskSchema = new Schema({
   title: String,
   description: String,
   // subTasks: [{type: Schema.Types.ObjectId, ref: 'SubTask'}],
-  owner: {type: Schema.Types.ObjectId, ref: 'User'}
+  owner: {type: Schema.Types.ObjectId, ref: 'User', required: true} 
 });
 
 const Task = mongoose.model('Task', taskSchema);

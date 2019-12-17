@@ -19,11 +19,13 @@ router.get("/tasks", (req, res, next) => {
   // else {
   //   console.log("user doesn't exist")
   // }
+  if(req.user) {
     Task.find({ owner: req.user._id }).then(allProjects => {
       // console.log(req.user + "+++++++++++++++");
       // console.log(req.session);
       res.json(allProjects);
     })
+  }
 });
 
 // GET route => to get all the projects

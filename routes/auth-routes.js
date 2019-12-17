@@ -7,7 +7,8 @@ const passport = require('../config/passport');
 router.post("/signup", (req, res, err) => {
   let password = req.body.password;
   let incomingUserObj = {
-    email: req.body.email
+    email: req.body.email,
+    username: req.body.username
   };
 
   User.register(incomingUserObj, password)
@@ -19,6 +20,15 @@ router.post("/signup", (req, res, err) => {
   .catch((err) => { 
     res.status(500).json({ err })
   });
+})
+
+router.post("/edit", (req, res, err)=> {
+
+  // let userInfo = {
+  //   username: 
+  // }
+
+
 })
 
 // check if user is logged in,

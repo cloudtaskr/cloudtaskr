@@ -9,8 +9,11 @@ const userSchema = new Schema(
     password: {type: String
       // , required: true
     },
+
+    username: String,
     firstName: String,
     lastName: String,
+    zones: Array,
   },
   {
     timestamps: true,

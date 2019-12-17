@@ -10,7 +10,7 @@ const userSchema = new Schema(
       // , required: true
     },
 
-    username: String,
+    username: {type: String, unique: true},
     firstName: String,
     lastName: String,
     zones: Array,

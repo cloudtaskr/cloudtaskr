@@ -7,15 +7,11 @@ const passport = require('../config/passport');
 router.post("/signup", (req, res, err) => {
   let password = req.body.password;
   let incomingUserObj = {
-    email: req.body.email,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName
+    email: req.body.email
   };
-  console.log(incomingUserObj)
 
   User.register(incomingUserObj, password)
   .then((user) => { 
-    console.log(user)
       req.login(user, function(err,result){
         res.json(user)
       })
@@ -42,8 +38,8 @@ router.get('/logout', (req, res, next) => {
 
 // login POST
 router.post('/login', passport.authenticate('local'), (req, res, next) => {
-  // console.log("login whats inside req", req)
-  // console.log("login whats inside req.user", req.user)
+  console.log("login whats inside req", req)
+  console.log("login whats inside req.user", req.user)
   req.session.word = "yes";
   res.json(req.user);
 })

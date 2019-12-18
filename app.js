@@ -37,10 +37,15 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000"] 
+    origin: function(origin, callback) {
+      return callback(null, true)
+    }
+    
   })
   // cors()
 );
+
+//app.use(cors())
 
 app.use(
   session({

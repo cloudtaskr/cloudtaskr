@@ -16,6 +16,7 @@ router.post("/signup", (req, res, err) => {
       req.login(user, function(err, result) {
         res.json(user);
       });
+      res.json(user)
     })
     .catch(err => {
       res.status(500).json({ err });
@@ -53,7 +54,8 @@ router.post("/editprofile/username", (req, res, err) => {
       console.log(user);
     })
     .catch(err => {
-      res.status(500).json({ err });
+      // res.status(500).json({ err });
+      res.json({ err });
     });
 });
 

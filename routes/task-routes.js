@@ -11,12 +11,26 @@ const User = require("../models/user-model");
 
 // GET route => get all the tasks in the collection
 router.get("/tasks", (req, res, next) => {
-  console.log(req.user._id);
-  Task.find({ owner: req.user._id }).then(allProjects => {
-    // console.log(req.user + "+++++++++++++++");
-    // console.log(req.session);
-    res.json(allProjects);
-  });
+  // console.log("what are you printing");
+  // if(req.user) {
+
+  //   console.log("user exist", req.user.email);
+  // }
+  // else {
+  //   console.log("user doesn't exist")
+  // }
+  if(!req.user){
+    res.json({no:'user'})
+  }
+  else {
+    // if(req.user) {
+      Task.find({ owner: req.user._id }).then(allProjects => {
+        // console.log(req.user + "+++++++++++++++");
+        // console.log(req.session);
+        res.json(allProjects);
+      })
+  }
+  
 });
 
 // GET route => to get all the projects

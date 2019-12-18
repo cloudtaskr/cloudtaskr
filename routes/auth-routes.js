@@ -41,6 +41,7 @@ router.post("/editprofile/name", (req, res, err) => {
 });
 
 router.post("/editprofile/username", (req, res, err) => {
+  // meow meow meow meow meow - Jess
   let update = {
     username: req.body.username, unique: true
   };

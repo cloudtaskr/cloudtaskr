@@ -31,11 +31,60 @@ router.get("/projects", (req, res, next) => {
     });
 });
 
+
+router.get("/task/edit/:id",(req, res, next)=>{
+  // console.log('leopard', req.user, req.params)
+  filter = { owner: req.user._id, _id: req.params.id };
+  // options = { runValidators: true, new: true, context: 'query' };
+  Task.findOne(filter)
+    .then(task => {
+      res.json(task);
+      // console.log(task);
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+
+
+})
+
+router.delete("/task/delete/:id",(req, res, next)=>{
+  Task.findOneAndDelete({_id: req.params.id} )
+  .then(task=>{
+    res.json(task)
+  })
+  .catch(err=>{
+    console.log(err)
+  })
+})
+
+router.post("/task/edit/:id",(req, res, next)=>{
+
+  taskUpdate = ({
+    title: req.body.title,
+    description: req.body.description,
+  })
+  
+  filter = { owner: req.user._id, _id: req.params.id };
+  options = { runValidators: true, new: true, context: 'query' };
+  Task.findOneAndUpdate(filter, taskUpdate, options)
+    .then(task => {
+      res.json(task);
+      // console.log(task);
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+
+
+})
+
+
 // POST route => to create a new task
 router.post("/tasks", (req, res, next) => {
   //  console.log("-=-=-=-=-=-=-=-=-=-=-=-=-",req.body, req.session, req.user)
-  console.log(req.user._id);
-  console.log(req.user);
+  // console.log(req.user._id);
+  // console.log(req.user);
   Task.create({
     title: req.body.title,
     description: req.body.description,

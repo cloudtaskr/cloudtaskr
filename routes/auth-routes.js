@@ -34,7 +34,7 @@ router.post("/editprofile/name", (req, res, err) => {
   User.findOneAndUpdate(filter, update, options)
     .then(user => {
       res.json(user);
-      console.log(user);
+      // console.log(user);
     })
     .catch(err => {
       res.status(500).json({ err });
@@ -51,7 +51,7 @@ router.post("/editprofile/username", (req, res, err) => {
   User.findOneAndUpdate(filter, update, options)
     .then(user => {
       res.json(user);
-      console.log(user);
+      // console.log(user);
     })
     .catch(err => {
       // res.status(500).json({ err });
@@ -59,10 +59,36 @@ router.post("/editprofile/username", (req, res, err) => {
     });
 });
 
+router.post("/editprofile/zones",(req, res, next)=>{
+console.log(req.body)
+  let zoneUpdate = 
+    
+             req.body
+      //       {name: "home",
+      //     address:"address",
+      //   lat:"lat",
+      // lng:"lng"}
+          
+  
+  
+  filter = { _id: req.user._id };
+  options = { runValidators: true, new: true, context: 'query', upsert: true };
+  User.findOneAndUpdate(filter, zoneUpdate, options)
+    .then(user => {
+      res.json(user);
+      // console.log(user);
+    })
+    .catch(err => {
+      res.status(500).json({ err });
+    });
+
+
+})
+
 // check if user is logged in,
 router.get("/isLoggedIn", (req, res, next) => {
-  console.log("checking logged in");
-  console.log("this is user", req.user);
+  // console.log("checking logged in");
+  // console.log("this is user", req.user);
   res.json(req.user);
 });
 
@@ -75,8 +101,8 @@ router.get("/logout", (req, res, next) => {
 
 // login POST
 router.post("/login", passport.authenticate("local"), (req, res, next) => {
-  console.log("login whats inside req", req);
-  console.log("login whats inside req.user", req.user);
+  // console.log("login whats inside req", req);
+  // console.log("login whats inside req.user", req.user);
   req.session.word = "yes";
   res.json(req.user);
 });

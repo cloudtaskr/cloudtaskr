@@ -13,7 +13,12 @@ const userSchema = new Schema(
     username: {type: String, unique: true},
     firstName: String,
     lastName: String,
-    zones: Array,
+    zones: {
+      name: String,
+      address: String,
+      lat: Number,
+      lng: Number
+    },
   },
   {
     timestamps: true,

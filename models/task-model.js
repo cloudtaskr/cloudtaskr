@@ -10,11 +10,12 @@ const taskSchema = new Schema({
       name: String,
       address: String,
       lat: Number,
-      lng: Number
+      lng: Number,
   },
   duration: Number,
   status: String,
   owner: {type: Schema.Types.ObjectId, ref: 'User', required: true}, 
+  date: String,
 });
 
 const Task = mongoose.model('Task', taskSchema);

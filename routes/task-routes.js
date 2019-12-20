@@ -103,7 +103,8 @@ router.post("/tasks", (req, res, next) => {
     zone: { name: "", address: "", lat: 0, lng: 0 },
     duration: 0,
     status: "active",
-    owner: req.user._id
+    owner: req.user._id,
+    date: "",
   })
     .then(response => {
       res.json(response);

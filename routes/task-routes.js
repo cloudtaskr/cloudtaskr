@@ -19,18 +19,16 @@ router.get("/tasks", (req, res, next) => {
   // else {
   //   console.log("user doesn't exist")
   // }
-  if(!req.user){
-    res.json({no:'user'})
-  }
-  else {
+  if (!req.user) {
+    res.json({ no: "user" });
+  } else {
     // if(req.user) {
-      Task.find({ owner: req.user._id }).then(allProjects => {
-        // console.log(req.user + "+++++++++++++++");
-        // console.log(req.session);
-        res.json(allProjects);
-      })
+    Task.find({ owner: req.user._id }).then(allProjects => {
+      // console.log(req.user + "+++++++++++++++");
+      // console.log(req.session);
+      res.json(allProjects);
+    });
   }
-  
 });
 
 // GET route => to get all the projects
@@ -45,8 +43,7 @@ router.get("/projects", (req, res, next) => {
     });
 });
 
-
-router.get("/task/edit/:id",(req, res, next)=>{
+router.get("/task/edit/:id", (req, res, next) => {
   // console.log('leopard', req.user, req.params)
   filter = { owner: req.user._id, _id: req.params.id };
   // options = { runValidators: true, new: true, context: 'query' };
@@ -58,41 +55,38 @@ router.get("/task/edit/:id",(req, res, next)=>{
     .catch(err => {
       res.status(500).json({ err });
     });
+});
 
+router.delete("/task/delete/:id", (req, res, next) => {
+  Task.findOneAndDelete({ _id: req.params.id })
+    .then(task => {
+      res.json(task);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
 
-})
-
-router.delete("/task/delete/:id",(req, res, next)=>{
-  Task.findOneAndDelete({_id: req.params.id} )
-  .then(task=>{
-    res.json(task)
-  })
-  .catch(err=>{
-    console.log(err)
-  })
-})
-
-router.post("/task/edit/:id",(req, res, next)=>{
-
-  taskUpdate = ({
+router.post("/task/edit/:id", (req, res, next) => {
+  console.log(req.body);
+  taskUpdate = {
     title: req.body.title,
     description: req.body.description,
-  })
-  
+    zone: req.body.zone
+  };
+
   filter = { owner: req.user._id, _id: req.params.id };
-  options = { runValidators: true, new: true, context: 'query' };
+  options = { runValidators: true, new: true, context: "query" };
   Task.findOneAndUpdate(filter, taskUpdate, options)
     .then(task => {
       res.json(task);
-      // console.log(task);
+      console.log(task);
+      console.log(req.body);
     })
     .catch(err => {
       res.status(500).json({ err });
     });
-
-
-})
-
+});
 
 // POST route => to create a new task
 router.post("/tasks", (req, res, next) => {
@@ -102,7 +96,7 @@ router.post("/tasks", (req, res, next) => {
   Task.create({
     title: req.body.title,
     description: req.body.description,
-    // subTasks: []
+    zone: { name: "", address: "", lat: 0, lng: 0 },
     owner: req.user._id
   })
     .then(response => {

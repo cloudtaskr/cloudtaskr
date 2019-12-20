@@ -6,6 +6,12 @@ const taskSchema = new Schema({
   title: String,
   description: String,
   // subTasks: [{type: Schema.Types.ObjectId, ref: 'SubTask'}],
+  zone: {
+      name: String,
+      address: String,
+      lat: Number,
+      lng: Number
+  },
   owner: {type: Schema.Types.ObjectId, ref: 'User', required: true} 
 });
 

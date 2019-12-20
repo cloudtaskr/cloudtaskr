@@ -8,7 +8,11 @@ router.post("/signup", (req, res, err) => {
   let password = req.body.password;
   let incomingUserObj = {
     email: req.body.email,
-    username: req.body.username
+    username: req.body.username,
+    zones: {
+      home: { name: "home", address: "", lat: "0", lng: "0" },
+      work: { name: "work", address: "", lat: "0", lng: "0" }
+    }
   };
 
   User.register(incomingUserObj, password)
@@ -16,7 +20,7 @@ router.post("/signup", (req, res, err) => {
       req.login(user, function(err, result) {
         res.json(user);
       });
-      res.json(user)
+      res.json(user);
     })
     .catch(err => {
       res.status(500).json({ err });
@@ -44,10 +48,11 @@ router.post("/editprofile/name", (req, res, err) => {
 router.post("/editprofile/username", (req, res, err) => {
   // meow meow meow meow meow - Jess
   let update = {
-    username: req.body.username, unique: true
+    username: req.body.username,
+    unique: true
   };
   filter = { _id: req.user._id };
-  options = { runValidators: true, new: true, context: 'query' };
+  options = { runValidators: true, new: true, context: "query" };
   User.findOneAndUpdate(filter, update, options)
     .then(user => {
       res.json(user);
@@ -59,20 +64,16 @@ router.post("/editprofile/username", (req, res, err) => {
     });
 });
 
-router.post("/editprofile/zones",(req, res, next)=>{
-console.log(req.body)
-  let zoneUpdate = 
-    
-             req.body
-      //       {name: "home",
-      //     address:"address",
-      //   lat:"lat",
-      // lng:"lng"}
-          
-  
-  
+router.post("/editprofile/zones", (req, res, next) => {
+  console.log(req.body);
+  let zoneUpdate = req.body;
+  //       {name: "home",
+  //     address:"address",
+  //   lat:"lat",
+  // lng:"lng"}
+
   filter = { _id: req.user._id };
-  options = { runValidators: true, new: true, context: 'query', upsert: true };
+  options = { runValidators: true, new: true, context: "query", upsert: true };
   User.findOneAndUpdate(filter, zoneUpdate, options)
     .then(user => {
       res.json(user);
@@ -81,9 +82,7 @@ console.log(req.body)
     .catch(err => {
       res.status(500).json({ err });
     });
-
-
-})
+});
 
 // check if user is logged in,
 router.get("/isLoggedIn", (req, res, next) => {

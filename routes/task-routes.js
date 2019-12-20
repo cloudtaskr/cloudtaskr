@@ -67,12 +67,16 @@ router.delete("/task/delete/:id", (req, res, next) => {
     });
 });
 
+
+
 router.post("/task/edit/:id", (req, res, next) => {
   console.log(req.body);
   taskUpdate = {
     title: req.body.title,
     description: req.body.description,
-    zone: req.body.zone
+    zone: req.body.zone,
+    duration: req.body.duration,
+    status: req.body.status
   };
 
   filter = { owner: req.user._id, _id: req.params.id };
@@ -97,6 +101,8 @@ router.post("/tasks", (req, res, next) => {
     title: req.body.title,
     description: req.body.description,
     zone: { name: "", address: "", lat: 0, lng: 0 },
+    duration: 0,
+    status: "active",
     owner: req.user._id
   })
     .then(response => {

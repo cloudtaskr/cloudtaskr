@@ -12,7 +12,9 @@ const taskSchema = new Schema({
       lat: Number,
       lng: Number
   },
-  owner: {type: Schema.Types.ObjectId, ref: 'User', required: true} 
+  duration: Number,
+  status: String,
+  owner: {type: Schema.Types.ObjectId, ref: 'User', required: true}, 
 });
 
 const Task = mongoose.model('Task', taskSchema);

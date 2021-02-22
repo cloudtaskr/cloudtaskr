@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react'
 import { Button, FormLabel } from 'react-bootstrap'
 import Zones from '../Account/Zones/Zones'

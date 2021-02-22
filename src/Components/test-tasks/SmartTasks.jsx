@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from "react";
 import Menu from "../Menu/Menu";
 import { Button, Container, Row, Card } from "react-bootstrap";

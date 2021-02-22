@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "cors": "^2.8.5",
+    "eslint": "^5.12.0",
     "gh-pages": "^2.1.1",
     "iplocation": "^6.1.0",
     "public-ip": "^4.0.0",
@@ -37,9 +38,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -51,9 +49,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-config-netlify": "^1.3.0"
   }
 }

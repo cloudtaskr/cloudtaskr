@@ -259,7 +259,7 @@ class App extends React.Component {
           filterTaskList: res.data,
           taskDataIsReady: true
         });
-        // this.setFeedbackMessage(`User's data was successfully fetched`, true);
+        this.setFeedbackMessage(`User's data was successfully fetched`, true);
       })
       .catch(err => {
         this.setFeedbackMessage(

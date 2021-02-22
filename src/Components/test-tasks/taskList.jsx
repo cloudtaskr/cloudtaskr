@@ -65,45 +65,46 @@ export default class TaskList extends Component {
 
   displayAllTasks = () => {
     // console.log(this.props.filterTaskList)
+    let tasks = this.props.filterTaskList || []
+    if (tasks.length > 1) {
+      return tasks.map(task => {
+        // if(task.status==="active"){
+        return (
+          // console.log(task.lat)
+          <Row
+            key={task._id}
+            name="task"
+            // style={{
+            //   display: "flex",
+            //   padding: "5px",
+            //   justifyContent: "space-between"
+            // }}
+            className="each-task"
+          >
+            <Col xs={2}>
+              {task.status === "complete" ? (<Button
+                style={{ margin: "5px" }}
+                onClick={() => {
+                  this.completeTask(task._id);
+                }}
+                variant="warning"
+              >
+                <FontAwesomeIcon icon={faCheck} />
+              </Button>) : (<Button
+                style={{ margin: "5px" }}
+                onClick={() => {
+                  this.completeTask(task._id);
+                }}
+                variant="outline-warning"
+              >
+                <FontAwesomeIcon icon={faCheck} />
+              </Button>)}
 
-    return this.props.filterTaskList.map(task => {
-      // if(task.status==="active"){
-      return (
-        // console.log(task.lat)
-        <Row
-          key={task._id}
-          name="task"
-          // style={{
-          //   display: "flex",
-          //   padding: "5px",
-          //   justifyContent: "space-between"
-          // }}
-          className="each-task"
-        >
-          <Col xs={2}>
-          {task.status==="complete" ? (<Button
-              style={{ margin: "5px" }}
-              onClick={() => {
-                this.completeTask(task._id);
-              }}
-              variant="warning"
-            >
-              <FontAwesomeIcon icon={faCheck} />
-            </Button>):(<Button
-              style={{ margin: "5px" }}
-              onClick={() => {
-                this.completeTask(task._id);
-              }}
-              variant="outline-warning"
-            >
-              <FontAwesomeIcon icon={faCheck} />
-            </Button>)}
-            
-          </Col>
-          <Col xs={6} className="task-title" >
-            <h5>{task.title}</h5>
-          </Col>
-          {/* <Col>
+            </Col>
+            <Col xs={6} className="task-title" >
+              <h5>{task.title}</h5>
+            </Col>
+            {/* <Col>
           {Math.floor(
                     this.props.distanceFunction(
                       this.props.userLocation.latitude,
@@ -115,23 +116,24 @@ export default class TaskList extends Component {
                   )}{" "}
                   miles away
           </Col> */}
-          <Col xs={4}>
-            <Link to={"/task/edit/" + task._id}>
-              <Button style={{ margin: "5px" }}>
-                <FontAwesomeIcon icon={faEllipsisV} />
-              </Button>
-            </Link>
-            
-            <Link to={"/task/delete/" + task._id}>
-              <Button style={{ margin: "5px" }} variant="danger">
-                <FontAwesomeIcon icon={faTrash} />
-              </Button>
-            </Link>
-          </Col>
-        </Row>
+            <Col xs={4}>
+              <Link to={"/task/edit/" + task._id}>
+                <Button style={{ margin: "5px" }}>
+                  <FontAwesomeIcon icon={faEllipsisV} />
+                </Button>
+              </Link>
+
+              <Link to={"/task/delete/" + task._id}>
+                <Button style={{ margin: "5px" }} variant="danger">
+                  <FontAwesomeIcon icon={faTrash} />
+                </Button>
+              </Link>
+            </Col>
+          </Row>
         );
-      // }
-    });
+        // }
+      });
+    }
   };
 
   addTaskMenu = () => {
@@ -157,7 +159,7 @@ export default class TaskList extends Component {
 
     return (
       <div>
-      {/* <Alert show={this.props.showDurationAlert} variant="success">
+        {/* <Alert show={this.props.showDurationAlert} variant="success">
         <Alert.Heading>How much free time do you have?</Alert.Heading>
         <p>
           Set the number of minutes you're available and we'll recommend tasks for you to complete.
@@ -176,10 +178,10 @@ export default class TaskList extends Component {
         </div>
       </Alert> */}
 
-      {/* {!this.show && <Button onClick={() => this.setState({showDurationAlert: true})}>Show Alert</Button>} */}
+        {/* {!this.show && <Button onClick={() => this.setState({showDurationAlert: true})}>Show Alert</Button>} */}
         {this.props.userObj ? (
           <div>
-            
+
             <Container className="task-list-page">
               {/* {this.props.userObj.firstName ? (
                 <h2>Welcome {this.props.userObj.firstName}</h2>
@@ -200,34 +202,34 @@ export default class TaskList extends Component {
 
               {/* <button onClick={this.displayAllTasks}>Filter</button> */}
               <Container>
-              {/* <Row><Col xs={2}>Complete</Col><Col xs={6}>Task</Col></Row> */}
-              {this.state.showAddTaskMenu ? (
-                <Row>
-                  <Col>
-                    <AddTask
-                      fetchData={this.props.fetchData}
-                      showAddTaskMenu={this.addTaskMenu}
-                      filterList={this.props.filterList}
-                    />
-                    <hr />
-                  </Col>
-                </Row>
-              ) : (
-                ""
-              )}
+                {/* <Row><Col xs={2}>Complete</Col><Col xs={6}>Task</Col></Row> */}
+                {this.state.showAddTaskMenu ? (
+                  <Row>
+                    <Col>
+                      <AddTask
+                        fetchData={this.props.fetchData}
+                        showAddTaskMenu={this.addTaskMenu}
+                        filterList={this.props.filterList}
+                      />
+                      <hr />
+                    </Col>
+                  </Row>
+                ) : (
+                    ""
+                  )}
                 {this.props && this.displayAllTasks()}
               </Container>
-              
+
             </Container>
           </div>
         ) : (
-          <Container>
-            <h1>Not authorized, sign up to make your first task</h1>
-            <LinkContainer to="/signup">
-              <Button>Sign Up</Button>
-            </LinkContainer>
-          </Container>
-        )}
+            <Container>
+              <h1>Not authorized, sign up to make your first task</h1>
+              <LinkContainer to="/signup">
+                <Button>Sign Up</Button>
+              </LinkContainer>
+            </Container>
+          )}
       </div>
     );
   }
